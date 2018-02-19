@@ -25,14 +25,14 @@ func Handler(ctx context.Context, snsEvent events.SNSEvent) error {
 		return err
 	}
 
-	const pull = true
-	types, err := client.GetImportTypes(pull)
-	if err != nil {
-		return err
-	}
+	types := [...]string{"retPvModule", "retInverter"}
 	for _, t := range types {
-		if t.Available() {
-			if _, err := client.PutImport(t.ID); err != nil {
+		i, err := client.GetRecentImport(t)
+		if err != nil {
+			return err
+		}
+		if i.Status == "new_" {
+			if _, err := client.PutImport(i.ID); err != nil {
 				return err
 			}
 		}

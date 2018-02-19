@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/benkim0414/geoauth"
 )
@@ -15,32 +14,6 @@ import (
 const (
 	baseURL = "https://api.geocreation.com.au/api"
 )
-
-type ImportType struct {
-	ID                        string `json:"_id"`
-	Name                      string `json:"name"`
-	Type                      string `json:"type"`
-	AvailableVersionSpottedAt string `json:"availableVersionSpottedAt"`
-}
-
-func (t *ImportType) Available() bool {
-	spottedAt, err := time.Parse(time.RFC3339, t.AvailableVersionSpottedAt)
-	if err != nil {
-		return false
-	}
-	today := time.Now().Truncate(24 * time.Hour)
-	return today.Equal(spottedAt.Truncate(24 * time.Hour))
-}
-
-func (t ImportType) String() string {
-	format := "%s %q"
-	if t.Available() {
-		format += " is available to import"
-	} else {
-		format += " is unavailable to import"
-	}
-	return fmt.Sprintf(format, t.Name, t.ID)
-}
 
 type Import struct {
 	ID      string `json:"_id"`
@@ -65,8 +38,8 @@ func NewClient(ctx context.Context, conf *geoauth.Config) (*Client, error) {
 	}, nil
 }
 
-func (c *Client) GetImportTypes(pull bool) ([]*ImportType, error) {
-	url := fmt.Sprintf("%s/import_types/?pull=%t", baseURL, pull)
+func (c *Client) GetRecentImport(importType string) (*Import, error) {
+	url := fmt.Sprintf("%s/imports/recent?type=%s", baseURL, importType)
 	res, err := c.hc.Get(url)
 	if err != nil {
 		return nil, err
@@ -77,14 +50,14 @@ func (c *Client) GetImportTypes(pull bool) ([]*ImportType, error) {
 		return nil, err
 	}
 	var response struct {
-		ImportType struct {
-			Result []*ImportType `json:"result"`
-		} `json:"importType"`
+		Import struct {
+			Result []*Import `json:"result"`
+		} `json:"import"`
 	}
 	if err = json.Unmarshal(body, &response); err != nil {
 		return nil, err
 	}
-	return response.ImportType.Result, nil
+	return response.Import.Result[0], nil
 }
 
 func (c *Client) PutImport(id string) (*Import, error) {
