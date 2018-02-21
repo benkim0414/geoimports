@@ -32,8 +32,8 @@ func Handler(ctx context.Context, snsEvent events.SNSEvent) error {
 		if err != nil {
 			return err
 		}
-		if i.Status == "new_" {
 			if _, err := client.PutImport(i.ID); err != nil {
+		if m.Status == imports.StatusNew {
 				return err
 			}
 		}
