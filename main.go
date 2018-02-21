@@ -18,7 +18,7 @@ func Handler(ctx context.Context, snsEvent events.SNSEvent) error {
 	conf := &geoauth.Config{
 		ClientID:     clientID,
 		ClientSecret: clientSecret,
-		AuthURL:      geoauth.GEOAuthURL,
+		AuthURL:      geoauth.URL,
 	}
 	client, err := imports.NewClient(ctx, conf)
 	if err != nil {
