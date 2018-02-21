@@ -14,6 +14,7 @@ const (
 	clientSecret = "AQICAHjEkFlMfByWgCktJWRFfuVMhkFaCtDynoodWngDmNQ14gFceiCwAnMkyiCpxY54/YXvAAAAajBoBgkqhkiG9w0BBwagWzBZAgEAMFQGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMEylGqoZ1CXyzNEE6AgEQgCfnvXYZM7iDXNGqaEsUIn7dN3daDY1pZS4imkUZlvNie2eK9q1orC4="
 )
 
+// Handler is a Lambda function handler to import RET inverters and PV modules to the GEO.
 func Handler(ctx context.Context, snsEvent events.SNSEvent) error {
 	conf := &geoauth.Config{
 		ClientID:     clientID,

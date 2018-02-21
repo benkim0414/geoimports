@@ -1,8 +1,31 @@
 version: 0.2
+env:
+  variables:
+    # This S3 bucket is used to store the packaged Lambda deployment bundle.
+    # Make sure to provide a valid S3 bucket name (it must exist already).
+    # The CodeBuild IAM role must allow write access to it.
+    S3_BUCKET: "geo-imports-bucket"
 phases:
   install:
     commands:
+      # Fetch all dependencies
       - go get -t ./...
+      # Install golint
+      - go get -u github.com/golang/lint/golint
+  pre_build:
+    commands:
+      # Ensure that the code passes all lint tests
+      - golint -set_exit_status
+      # Check for common Go problems with 'go vet'
+      - go vet .
   build:
     commands:
+      # Run all tests included with the application
       - go test -v ./...
+      # Build the go application
+      - go build -o main
+      # Package the application with AWS SAM
+      - aws cloudformation package --template-file template.yml --s3-bucket ${S3_BUCKET} --output-template-file packaged.yml
+artifacts:
+  files:
+    - packaged.yml
