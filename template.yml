@@ -11,4 +11,4 @@ Resources:
         GeoImportsEveryMondayEvent:
           Type: Schedule
           Properties:
-            Schedule: cron(0 1 ? * MON *)
+            Schedule: cron(0 6 ? * MON *)
