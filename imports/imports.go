@@ -38,6 +38,28 @@ func NewClient(ctx context.Context, conf *geoauth.Config) (*Client, error) {
 	}, nil
 }
 
+func (c *Client) GetImportTypes(pull bool) ([]*ImportType, error) {
+	url := fmt.Sprintf("%s/import_types/?pull=%t", baseURL, pull)
+	res, err := c.hc.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+	var response struct {
+		ImportType struct {
+			Result []*ImportType `json:"result"`
+		} `json:"importType"`
+	}
+	if err = json.Unmarshal(body, &response); err != nil {
+		return nil, err
+	}
+	return response.ImportType.Result, nil
+}
+
 func (c *Client) GetRecentImport(importType string) (*Import, error) {
 	url := fmt.Sprintf("%s/imports/recent?type=%s", baseURL, importType)
 	res, err := c.hc.Get(url)

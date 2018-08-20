@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -26,9 +27,18 @@ func Handler(ctx context.Context, snsEvent events.SNSEvent) error {
 		return err
 	}
 
+	_, err = client.GetImportTypes(true)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
 	types := [...]string{
+		imports.TypeRETSWHOver700L,
+		imports.TypeRETSWH700LOrLess,
 		imports.TypeRETPVModule,
 		imports.TypeRETInverter,
+		imports.TypeRETASHP,
 	}
 	for _, typ := range types {
 		m, err := client.GetRecentImport(typ)

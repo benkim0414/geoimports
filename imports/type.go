@@ -1,7 +1,10 @@
 package imports
 
 const (
-	TypeRETPVModule  = "retPvModule"
-	TypeRETInverter  = "retInverter"
-	TypeCECInstaller = "cecInstaller"
+	TypeRETSWHOver700L   = "retSwhOver700L"
+	TypeRETSWH700LOrLess = "retSwh700LOrLess"
+	TypeRETPVModule      = "retPvModule"
+	TypeRETInverter      = "retInverter"
+	TypeRETASHP          = "retSwhAshp"
+	TypeCECInstaller     = "cecInstaller"
 )
