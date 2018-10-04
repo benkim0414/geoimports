@@ -8,6 +8,10 @@ Resources:
       Runtime: go1.x
       Tracing: Active
       Events:
+        GeoImportsEveryMondayPre1HourEvent:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 5 ? * MON *)
         GeoImportsEveryMondayEvent:
           Type: Schedule
           Properties:
