@@ -12,7 +12,7 @@ import (
 
 const (
 	clientID     = "ben.kim@greenenergytrading.com.au"
-	clientSecret = "AQICAHhVrOaNnK50PWMuS5OKJu776vi3df3OYAVa5vStP5DRGAGkwt9bQN1V4INyDl9upR8SAAAAajBoBgkqhkiG9w0BBwagWzBZAgEAMFQGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMKc48x5mwgj6vkha8AgEQgCcrA4uNwmKAOqnNpNtPVL2qqF6+BaMqYARW6nhx2W0Rh/MG+xc3WuY="
+	clientSecret = "AQICAHhVrOaNnK50PWMuS5OKJu776vi3df3OYAVa5vStP5DRGAGkBTYwuIylb/u0Mkz7+y4gAAAAajBoBgkqhkiG9w0BBwagWzBZAgEAMFQGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMq14dxYCyWDmPlO+ZAgEQgCeNFD/rv+AYeoaN6zbQQFK3sJD8Sy6hVdUWYfMRdDsnRsRmVAt5PWo="
 )
 
 // Handler is a Lambda function handler to import RET inverters and PV modules to the GEO.
